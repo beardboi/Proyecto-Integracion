@@ -1,0 +1,62 @@
+@page
+@model CreateModel
+
+@using SistemaMantencion.Data.Entities;
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+<div class="card">
+    <div class="card-header">
+        <div class="text-center">
+            <h1 class="display-4">Mantencion</h1>
+        </div>
+    </div>
+    <div class="card-body">
+        <p><b>Fecha: </b>@Model.Mantencion.Fecha.ToShortDateString()</p>
+        <p><b>Observaciones: </b>@Model.Mantencion.Observaciones</p>
+        &nbsp
+        <br>
+
+        <h4>Materiales utilizados</h4>
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Material</th>
+                    <th scope="col">Cantidad Usada</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MantencionMaterial mantencionProducto in Model.MantencionMateriales)
+                {
+    <tr>
+        <td>@mantencionProducto.Material.Nombre</td>
+        <td>@mantencionProducto.Cantidad</td>
+    </tr>}
+            </tbody>
+        </table>
+        &nbsp
+        <h4>Tecnicos involucrados</h4>
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">RUT</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Horas Trabajadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MantencionTecnico mantencionEmpleado in Model.MantencionTecnicos)
+                {
+    <tr>
+        <th scope="row">@mantencionEmpleado.Tecnico.Rut</th>
+        <td>@mantencionEmpleado.Tecnico.Nombre</td>
+        <td>@mantencionEmpleado.Horas hrs</td>
+    </tr>}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-header">
+        <a asp-page="./Index">Volver</a>
+    </div>
+</div>

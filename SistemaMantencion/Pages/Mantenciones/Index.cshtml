@@ -1,0 +1,44 @@
+@page
+@model IndexModel
+
+@using SistemaMantencion.Data.Entities;
+
+@{
+    ViewData["Title"] = "Mantenciones";
+}
+<div class="card">
+<div class="text-center">
+    <h1 class="display-4">Listado de Mantenciones</h1>
+</div>
+<div>
+    <div class="card-header">
+        <a asp-page="./create">Registrar Nueva Mantención</a>
+    </div>
+    <div class="card-body">
+        <table class="table ">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Patente Vehículo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Observación</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (Mantencion mantencion in Model.Mantenciones)
+                    {
+                    <tr>
+                        <td scope="row">@mantencion.Vehiculo.Patente</td>
+                        <td scope="row">@mantencion.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@mantencion.Observaciones</td>
+                        <td>-</td>
+                        <td><a asp-page="./details" asp-route-id="@mantencion.Id">Detalle</a></td>
+                    </tr>
+
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
