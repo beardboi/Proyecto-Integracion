@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 
 namespace SistemaMantencion.Pages.Mantenciones
 {
-    /// <summary>
-    /// Modelo de la vista Index de mantenciones 
-    /// </summary>
     public class IndexModel : PageModel
     {
         private readonly DataContext _context;

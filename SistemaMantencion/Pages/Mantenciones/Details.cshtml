@@ -1,11 +1,11 @@
 @page
-@model CreateModel
-
+@model DetailsModel
 @using SistemaMantencion.Data.Entities;
 
 @{
-    ViewData["Title"] = "Detalle";
+    ViewData["Title"] = "Detalle de Mantencion";
 }
+
 <div class="card">
     <div class="card-header">
         <div class="text-center">
@@ -14,7 +14,7 @@
     </div>
     <div class="card-body">
         <p><b>Fecha: </b>@Model.Mantencion.Fecha.ToShortDateString()</p>
-        <p><b>Observaciones: </b>@Model.Mantencion.Observaciones</p>
+        <p><b>Observaciones: </b>@Model.Mantencion.Observaciones </p>
         &nbsp
         <br>
 
@@ -27,12 +27,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (MantencionMaterial mantencionProducto in Model.MantencionMateriales)
+                @foreach (MantencionMaterial mantencionProducto in Model.ListaMantencionMateriales)
                 {
-    <tr>
-        <td>@mantencionProducto.Material.Nombre</td>
-        <td>@mantencionProducto.Cantidad</td>
-    </tr>}
+                <tr>
+                    <td>@mantencionProducto.Material.Nombre</td>
+                    <td>@mantencionProducto.Cantidad</td>
+                </tr>
+                }
             </tbody>
         </table>
         &nbsp
@@ -46,13 +47,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (MantencionTecnico mantencionEmpleado in Model.MantencionTecnicos)
+                @foreach (MantencionTecnico mantencionEmpleado in Model.ListaMantencionTecnicos)
                 {
-    <tr>
-        <th scope="row">@mantencionEmpleado.Tecnico.Rut</th>
-        <td>@mantencionEmpleado.Tecnico.Nombre</td>
-        <td>@mantencionEmpleado.Horas hrs</td>
-    </tr>}
+                <tr>
+                    <th scope="row">@mantencionEmpleado.Tecnico.Rut</th>
+                    <td>@mantencionEmpleado.Tecnico.Nombre</td>
+                    <td>@mantencionEmpleado.Horas hrs</td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>

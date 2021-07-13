@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaRRHH", "SistemaRRHH\SistemaRRHH.csproj", "{125EBD15-6612-42DA-A52D-7B5CCB57EA92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaRRHH", "SistemaRRHH.csproj", "{261D4D0C-508E-41E1-9738-3C834FDB38DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{125EBD15-6612-42DA-A52D-7B5CCB57EA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{125EBD15-6612-42DA-A52D-7B5CCB57EA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{125EBD15-6612-42DA-A52D-7B5CCB57EA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{125EBD15-6612-42DA-A52D-7B5CCB57EA92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261D4D0C-508E-41E1-9738-3C834FDB38DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261D4D0C-508E-41E1-9738-3C834FDB38DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261D4D0C-508E-41E1-9738-3C834FDB38DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261D4D0C-508E-41E1-9738-3C834FDB38DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {89E2AF59-20B4-43CD-9F3E-A5A459CEB87F}
+		SolutionGuid = {91CDEF29-BB82-45EA-8D77-AF6EA6E70FA7}
 	EndGlobalSection
 EndGlobal

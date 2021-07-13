@@ -1,0 +1,44 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Empleados";
+}
+@using Data.Entities
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                     <h1 class="display-4">Sistema de RRHH</h1>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>N°</th>
+                                <th>Rut</th>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @{int i = 1;}
+                            @foreach (Persona persona in Model.Empleados)
+                            {
+                            <tr>
+                                <td scope="row">@i</td>
+                                <td>@persona.Rut</td>
+                                <td>@persona.Nombres @persona.Apellidos</td>
+                                <td><a asp-page="./Details" asp-route-id="@persona.Id">Detalle</a></td>
+                            </tr>
+                            i++;
+                            }   
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

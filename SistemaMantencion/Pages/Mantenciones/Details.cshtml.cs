@@ -12,6 +12,8 @@ namespace SistemaMantencion.Pages.Mantenciones
     public class DetailsModel : PageModel
     {
         private readonly DataContext _context;
+
+        [BindProperty]
         public Mantencion Mantencion { get; set; }
         public List<MantencionTecnico> ListaMantencionTecnicos { get; set; }
         public List<MantencionMaterial> ListaMantencionMateriales { get; set; }

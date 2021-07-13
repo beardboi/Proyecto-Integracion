@@ -1,49 +1,71 @@
 @page
 @model CreateModel
-@using SistemaMantencion.Data.Entities
 
 @{
     ViewData["Title"] = "Formulario Registro de Mantencion"; 
 }
-<div class="container">
-    <div class="card-header">
-        <div class="text-center">
-            <h1 class="display-4">Formulario Registro de Mantención</h1>
-        </div>
-    </div>
-    @if (Model.Mantencion == null)
-    {
-    <div class="card-body">
-    <form asp-page-handler="Nueva" method="POST">
-        <div class="mb-3">Fecha: <input type="date" name=fecha class="form-control"/></div>
-        <div class="mb-3">
-            Vehiculo <select class="form-control" name="idVehiculo" asp-items="Model.Vehiculos"></select>
-        </div>
-        <div class="mb-3">
-            Técnico: <select class="form-control"  name="rutEmpleado" asp-items="Model.Tecnicos"></select>
-            Horas Trabajadas: <input class="form-control"  type="number" min="1" value="1" name="horas">
-        </div>
-        <div class="form-group">
-            Material Utilizado: <select class="form-control" name="idProducto" asp-items="Model.Materiales"></select>
-            Cantidad: <input class="form-control" type="number" min="1" value="1" name="cantidad">
-        </div>
-        <div class="form-group">
-            <label for="observaciones" class="form-label">Observaciones: </label>
-            <textarea class="form-control" id="observacionesTextArea" name="observaciones" rows="2" placeholder="Ingrese una observación"></textarea>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Registrar Mantención" class="btn btn-primary">
-        </div>
-    </form>
-    </div>
-    } else if (Model.Mantencion != null){
-        <div class="card">
+<div class="container mx">
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h1 class="display-4">Formulario Registro de Mantención</h1>
+                    </div>
+                </div>
+                @if (Model.Mantencion == null)
+                {
             <div class="card-body">
-                Creado con exito
+                <form asp-page-handler="Nueva" method="POST">
+                    <div class="mb-3">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" name=fecha class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="idVehiculo">Vehículo</label>
+                        <select class="form-control" name="idVehiculo" asp-items="Model.Vehiculos"></select>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-9">
+                            <label for="rutEmpleado">Técnico</label>
+                            <select class="form-control"  name="rutEmpleado" asp-items="Model.Tecnicos"></select>
+                        </div>
+                        <div class="col-3">
+                           <label for="horas">Horas Trabajadas</label>
+                           <input class="form-control"  type="number" min="1" value="1" name="horas">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-9">
+                            <label for="idProducto">Material Utilizado</label>
+                            <select class="form-control" name="idProducto" asp-items="Model.Materiales"></select>
+                        </div>
+                        <div class="col-3">
+                            <label for="cantidad">Cantidad</label>
+                            <input class="form-control" type="number" min="1" value="1" name="cantidad">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="observaciones" class="form-label">Observaciones: </label>
+                        <textarea class="form-control" id="observacionesTextArea" name="observaciones" rows="3" placeholder="Ingrese una observación"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" value="Registrar Mantención" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+            } else if (Model.Mantencion != null){
+                <div class="card">
+                    <div class="card-body">
+                        <p>Vehiculo: @Model.Mantencion.IdVehiculo</p>
+                        <p>Fecha de Mantencion: @Model.Mantencion.Fecha.ToShortDateString()</p>
+                    </div>
+                </div>
+            }
+                <div class="card-footer">
+                    <a asp-page="./Index">Volver</a>
+                </div>
             </div>
         </div>
-    }
-    <div class="card-footer">
-        <a asp-page="./Index">Volver</a>
     </div>
 </div>

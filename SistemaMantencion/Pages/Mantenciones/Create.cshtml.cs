@@ -43,7 +43,14 @@ namespace SistemaMantencion.Pages.Mantenciones
 
             return Page();
         }
-        public async Task<IActionResult> OnPost(DateTime fecha, string observaciones, string rutEmpleado, int horas, int idProducto, int cantidad, int idVehiculo)
+
+        public async Task<IActionResult> OnPost(DateTime fecha, 
+                                                string observaciones, 
+                                                string rutEmpleado, 
+                                                int horas, 
+                                                int idProducto, 
+                                                int cantidad, 
+                                                int idVehiculo)
         {
             // Crear una nueva mantencion y asignar los atributos.
             Mantencion mantencion = new Mantencion();
@@ -62,42 +69,43 @@ namespace SistemaMantencion.Pages.Mantenciones
             await _context.SaveChangesAsync();
 
             // Se crea la tabla intermedia.
-            MantencionTecnico mantencionEmpleado = new MantencionTecnico();
-            mantencionEmpleado.MantencionId = mantencion.Id;
-            mantencionEmpleado.TecnicoRut = rutEmpleado;
-            mantencionEmpleado.Horas = horas;
+            MantencionTecnico mantencionTecnico = new MantencionTecnico();
+            mantencionTecnico.Horas = horas;
+            mantencionTecnico.TecnicoRut = rutEmpleado;
+            mantencionTecnico.MantencionId = mantencion.Id;
+
             // Insertar la tabla intermedia.
-            _context.MantencionTecnicos.Add(mantencionEmpleado);
+            _context.MantencionTecnicos.Add(mantencionTecnico);
             await _context.SaveChangesAsync();
 
             // Publicar la informacion de la tabla intermedia para el sistema RRHH.
-            MessageProducer.PublishMantencion(fecha, mantencionEmpleado);
+            MessageProducer.PublicarMantencion(fecha, mantencionTecnico);
 
-            // Se crea una nueva relacion MantencionProducto
-            MantencionMaterial mantencionProducto = new MantencionMaterial();
-            mantencionProducto.MantencionId = mantencion.Id;
-            mantencionProducto.MaterialId = idProducto;
-            mantencionProducto.Cantidad = cantidad;
+            MantencionMaterial mantencionMaterial = new MantencionMaterial();
+            mantencionMaterial.MantencionId = mantencion.Id;
+            mantencionMaterial.MaterialId = idProducto;
+            mantencionMaterial.Cantidad = cantidad;
 
             // Se guarda la relacion
-            _context.MantencionMateriales.Add(mantencionProducto);
+            _context.MantencionMateriales.Add(mantencionMaterial);
             await _context.SaveChangesAsync();
 
             // Enviar mensaje a RRHH??
 
             // Retornar a la misma pagina con el ID de la mantencion.
-            return RedirectToPage("./create", new { id = mantencion.Id });
+            return Page();
+            // return RedirectToPage("./create", new { id = mantencion.Id });
         }
 
         // TODO: Implementar estos metodos
-        public async Task<IActionResult> OnPostTecnicos()
-        {
-            return Page();
-        }
+        // public async Task<IActionResult> OnPostTecnicos()
+        // {
+        //     return Page();
+        // }
 
-        public async Task<IActionResult> OnPostMateriales()
-        {
-            return Page();
-        }
+        // public async Task<IActionResult> OnPostMateriales()
+        // {
+        //     return Page();
+        // }
     }
 }
