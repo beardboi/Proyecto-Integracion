@@ -9,12 +9,12 @@ using SistemaRRHH.Data;
 using System.Linq;
 using Newtonsoft.Json;
 using SistemaRRHH.Data.Entities;
+using System.Text;
 
 namespace SistemaRRHH.Services
 {
     public class ConsumeRabbitMQHostedService : BackgroundService
     {
-        private readonly DataContext _context;
         private IConnection _connection;  
         private IModel _channel;
         private IServiceProvider _serviceProvider;
@@ -39,29 +39,70 @@ namespace SistemaRRHH.Services
                 ExchangeType.Direct,
                 durable: true);
 
-            string queueName = _channel.QueueDeclare().QueueName;
+            _channel.QueueDeclare(queue: "rrhh",
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
 
             _channel.QueueBind(
-                queue: queueName,
+                queue: "rrhh",
                 exchange: "mantencion",
                 routingKey: "rrhh"
             );
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while(!stoppingToken.IsCancellationRequested) 
+            stoppingToken.ThrowIfCancellationRequested();
+
+            var consumer = new EventingBasicConsumer(_channel);
+
+            consumer.Received += async (ch, ea) =>
             {
-                await ConsumeMessage();
-            }
-            await Task.CompletedTask;
+                var body = ea.Body.ToArray();
+                var content = Encoding.UTF8.GetString(body);
+                Message message = JsonConvert.DeserializeObject<Message>(content);
+                System.Diagnostics.Debug.WriteLine(message);
+
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    DataContext context = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                    Persona persona = context.Personas.FirstOrDefault(p => p.Rut == message.RutTecnico);
+
+                    if (persona == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Persona is null, doesnt exist in the database");
+                        return;
+                    }
+
+                    HorasTrabajadas horasTrabajadas = new HorasTrabajadas();
+                    horasTrabajadas.Horas = message.HorasTrabajadas;
+                    horasTrabajadas.IdPersona = persona.Id;
+                    horasTrabajadas.Persona = persona;
+                    horasTrabajadas.Fecha = message.FechaMantencion;
+
+                    // Actualizar el stock
+
+                    System.Diagnostics.Debug.WriteLine("Insertando en la db");
+                    context.HorasTrabajadas.Add(horasTrabajadas);
+                    await context.SaveChangesAsync();
+                }
+            };
+
+            System.Diagnostics.Debug.WriteLine("Tarea completada");
+            _channel.BasicConsume(queue: "rrhh", autoAck: true, consumer: consumer);
+
+            return Task.CompletedTask;
         }
 
+        // 
         private Task ConsumeMessage()
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            consumer.Received += async (ch, ea) => 
+            consumer.Received += async (ch, ea) =>
             {
                 // Mensaje recibido
                 var content = System.Text.Encoding.UTF8.GetString(ea.Body.ToArray());
@@ -69,36 +110,33 @@ namespace SistemaRRHH.Services
                 Message message = JsonConvert.DeserializeObject<Message>(content);
                 System.Diagnostics.Debug.WriteLine(message);
 
-                using (var scope = _serviceProvider.CreateScope()) 
+                using (var scope = _serviceProvider.CreateScope())
                 {
                     DataContext context = scope.ServiceProvider.GetRequiredService<DataContext>();
 
-                    Persona persona = context.Personas.FirstOrDefault(p => p.Rut == message.Rut);
+                    Persona persona = context.Personas.FirstOrDefault(p => p.Rut == message.RutTecnico);
 
-                    if (persona == null) 
+                    if (persona == null)
                     {
                         System.Diagnostics.Debug.WriteLine("Persona is null, doesnt exist in the database");
                         return;
                     }
 
                     HorasTrabajadas horasTrabajadas = new HorasTrabajadas();
-                    horasTrabajadas.Horas = message.Horas;
+                    horasTrabajadas.Horas = message.HorasTrabajadas;
                     horasTrabajadas.IdPersona = persona.Id;
                     horasTrabajadas.Persona = persona;
-                    horasTrabajadas.Fecha = message.Fecha;
+                    horasTrabajadas.Fecha = message.FechaMantencion;
 
                     context.HorasTrabajadas.Add(horasTrabajadas);
                     await context.SaveChangesAsync();
                 }
             };
 
+            _channel.BasicConsume(queue: "rrhh",
+                                    autoAck: true,
+                                    consumer: consumer);
             return Task.CompletedTask;
         }
-    }
-
-    public class Message {
-        public DateTime Fecha { get; set; }
-        public string Rut { get; set; }
-        public int Horas { get; set; }
     }
 }

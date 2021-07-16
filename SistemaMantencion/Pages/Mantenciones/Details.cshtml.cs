@@ -31,6 +31,7 @@ namespace SistemaMantencion.Pages.Mantenciones
             }
 
             Mantencion = await _context.Mantenciones
+                .Include(m => m.Vehiculo)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Mantencion == null)

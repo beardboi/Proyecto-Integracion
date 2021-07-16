@@ -23,7 +23,8 @@ namespace SistemaMantencion.Pages.Mantenciones
         {
             Mantenciones = await _context.Mantenciones
                 .Include(m => m.Vehiculo)
-                .OrderByDescending(m => m.Fecha).ToListAsync();
+                .OrderByDescending(m => m.Id)
+                .ToListAsync();
 
             return Page();
         }

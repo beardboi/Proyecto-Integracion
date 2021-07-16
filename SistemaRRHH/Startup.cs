@@ -22,7 +22,7 @@ namespace SistemaRRHH
         {
             services.AddDbContext<DataContext>();
             services.AddRazorPages();
-            // services.AddHostedService<ConsumeRabbitMQHostedService>();
+            services.AddHostedService<ConsumeRabbitMQHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

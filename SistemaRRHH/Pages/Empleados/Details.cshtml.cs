@@ -4,7 +4,6 @@ using SistemaRRHH.Data;
 using SistemaRRHH.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace SistemaRRHH.Pages.Empleados 
 {
     public class DetailsModel : PageModel 

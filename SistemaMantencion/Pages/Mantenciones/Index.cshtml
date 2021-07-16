@@ -3,19 +3,23 @@
 @using SistemaMantencion.Data.Entities;
 
 @{
-    ViewData["Title"] = "Mantenciones";
+    ViewData["Title"] = "Mantenciones - Sistema de Mantencion";
 }
-<div class="card">
-<div class="text-center">
-    <h1 class="display-4">Listado de Mantenciones</h1>
-</div>
+
+
+
+<div id="mytable"  class="card">
 <div>
     <div class="card-header">
-        <a asp-page="./create">Registrar Nueva Mantención</a>
+        <div class="text-center">
+            <h1 class="display-4">Listado de Mantenciones</h1>
+        </div>
+        <hr>
+        <a class="btn btn-primary" asp-page="./create">Registrar Nueva Mantención</a>
     </div>
     <div class="card-body">
         <table class="table ">
-            <thead class="table-light">
+            <thead class="thead-light">
                 <tr>
                     <th scope="col">Patente Vehículo</th>
                     <th scope="col">Fecha</th>

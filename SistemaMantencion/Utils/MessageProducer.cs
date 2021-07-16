@@ -9,7 +9,7 @@ namespace SistemaMantencion.Utils
     public static class MessageProducer
     {
         // Funcion para
-        public static void PublicarMantencion(DateTime fecha, MantencionMaterial mantencion)
+        public static void PublicarMensajeBodega(MantencionMaterial mantencion, DateTime fecha)
         {
             // Configuracion de la conexion
             var factory = new ConnectionFactory()
@@ -29,7 +29,7 @@ namespace SistemaMantencion.Utils
             var message = new
             {
                 FechaMantencion = fecha,
-                Material = mantencion.Material.Nombre,
+                Material = mantencion.Material.Nombre, // Epa
                 Cantidad = mantencion.Cantidad
             };
 
@@ -48,7 +48,7 @@ namespace SistemaMantencion.Utils
         }
 
         // Funcion estatica para enviar mensajes al sistema de RRHH
-        public static void PublicarMantencion(DateTime fecha, MantencionTecnico mantencion)
+        public static void PublicarMensajeRRHH(MantencionTecnico mantencion, DateTime fecha)
         {
             // Configuracion de la conexion
             var factory = new ConnectionFactory()
@@ -77,13 +77,13 @@ namespace SistemaMantencion.Utils
 
             try 
             {
-                channel.BasicPublish("mantencion", "RRHH", basicProperties: null, body);
+                // Publicar mensaje
+                channel.BasicPublish("mantencion", "rrhh", basicProperties: null, body);
             } 
             catch 
             {
-                // ?
+                System.Diagnostics.Debug.WriteLine("No pasa nada");
             }
-            connection.Close();
         }
     }
 }

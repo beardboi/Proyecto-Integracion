@@ -1,0 +1,44 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Materiales - Sistema de Bodega";
+}
+
+@using Data.Entities
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                     <h1 class="display-4">Sistema de Bodega</h1>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>N°</th>
+                                <th>Nombre de Material</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @{int i = 1;}
+                            @foreach (Material material in Model.Materiales)
+                            {
+                            <tr>
+                                <td scope="row">@i</td>
+                                <td>@material.Nombre</td>
+                                <td>@material.Stock</td>
+                                <td><a asp-page="./Details" asp-route-id="@material.Id">Detalle</a></td>
+                            </tr>
+                            i++;
+                            }   
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

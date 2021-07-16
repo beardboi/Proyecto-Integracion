@@ -6,6 +6,6 @@ namespace SistemaMantencion.Data.Entities
     {
         public string Rut { get; set; }
         public string Nombre { get; set; }
-        public List<MantencionTecnico> MantencionesEmpleado { get; set; }
+        public List<MantencionTecnico> MantencionesTecnico { get; set; }
     }
 }

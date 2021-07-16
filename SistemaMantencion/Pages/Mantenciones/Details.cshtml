@@ -15,12 +15,21 @@
     <div class="card-body">
         <p><b>Fecha: </b>@Model.Mantencion.Fecha.ToShortDateString()</p>
         <p><b>Observaciones: </b>@Model.Mantencion.Observaciones </p>
+        <hr>
+        <h4>Datos del vehículo</h4>
+        &nbsp
+        <p><b>Patente de Vehículo: </b>@Model.Mantencion.Vehiculo.Patente</p>
+        <p><b>Marca: </b>@Model.Mantencion.Vehiculo.Marca</p>
+        <p><b>Modelo: </b>@Model.Mantencion.Vehiculo.Modelo</p>
+        <p><b>Kilometraje: </b>@Model.Mantencion.Vehiculo.Kilometraje</p>
+        <p><b>Año: </b>@Model.Mantencion.Vehiculo.Anho</p>
+        <hr>
         &nbsp
         <br>
 
         <h4>Materiales utilizados</h4>
         <table class="table">
-            <thead class="table-light">
+            <thead class="thead-light">
                 <tr>
                     <th scope="col">Material</th>
                     <th scope="col">Cantidad Usada</th>
@@ -39,7 +48,7 @@
         &nbsp
         <h4>Tecnicos involucrados</h4>
         <table class="table">
-            <thead class="table-light">
+            <thead class="thead-light">
                 <tr>
                     <th scope="col">RUT</th>
                     <th scope="col">Nombre</th>

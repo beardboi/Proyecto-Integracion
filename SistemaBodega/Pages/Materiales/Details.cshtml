@@ -1,0 +1,44 @@
+@page
+@model DetailsModel
+@{
+    ViewData["Title"] = "Detalle de empleado";
+}
+@using Data.Entities
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                     <h2 class="display-4">Registro Movimiento de Material</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>N°</th>
+                                <th>Fecha</th>
+                                <th>Cantidad Utilizada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @{int i = 1;}
+                            @foreach (MovimientoMaterial movimiento in Model.ListaMovimientos)
+                            {
+                            <tr>
+                                <td scope="row">@i</td>
+                                <td>@movimiento.Fecha.ToShortDateString()</td>
+                                <td>@movimiento.Cantidad</td>
+                            </tr>
+                            i++;
+                            }   
+                        </tbody>
+                    </table>
+                </div>
+                    <div class="card-header">
+                        <a asp-page="./Index">Volver</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

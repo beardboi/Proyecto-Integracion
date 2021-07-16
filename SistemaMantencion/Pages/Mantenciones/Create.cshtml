@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Formulario Registro de Mantencion"; 
 }
+
+@using Data.Entities
+
 <div class="container mx">
     <div class="row d-flex justify-content-center">
         <div class="col-8">
@@ -37,8 +40,8 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-9">
-                            <label for="idProducto">Material Utilizado</label>
-                            <select class="form-control" name="idProducto" asp-items="Model.Materiales"></select>
+                            <label for="idMaterial">Material Utilizado</label>
+                            <select class="form-control" name="idMaterial" asp-items="Model.Materiales"></select>
                         </div>
                         <div class="col-3">
                             <label for="cantidad">Cantidad</label>
@@ -57,8 +60,80 @@
             } else if (Model.Mantencion != null){
                 <div class="card">
                     <div class="card-body">
-                        <p>Vehiculo: @Model.Mantencion.IdVehiculo</p>
-                        <p>Fecha de Mantencion: @Model.Mantencion.Fecha.ToShortDateString()</p>
+                        <h3>Nueva Mantención Ingresada</h3>
+                        <br>
+                        <p><b>Patente de Vehiculo: </b>@Model.Mantencion.Vehiculo.Patente</p>
+                        <p><b>Fecha de Mantencion: </b>@Model.Mantencion.Fecha.ToShortDateString()</p>
+                        <hr>
+                        <br>
+                        <h3>Técnicos responsables</h3>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <th>Nombre</th>
+                                <th>Horas Trabajadas</th>
+                            </thead>
+                            <tbody>
+                                @foreach (MantencionTecnico tecnico in Model.MantencionTecnicos)
+                                {
+                                    <tr>
+                                        <td>@tecnico.Tecnico.Nombre</td>
+                                        <td>@tecnico.Horas hrs</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br>
+                        <h4>Registrar otro técnico</h4>
+                        <form asp-page-handler="Tecnicos" method="POST">
+                                <div class="row mb-3">
+                                    <input type="hidden" name="idMantencion" value="@Model.Mantencion.Id">
+                                    <input type="hidden" name="fecha" value="@Model.Mantencion.Fecha">
+                                    <div class="col-9">
+                                        <label for="rutEmpleado">Técnico</label>
+                                        <select class="form-control" name="rutTecnico" asp-items="@Model.Tecnicos"></select>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="horas">Horas Trabajadas</label>
+                                        <input class="form-control" type="number" min="1" value="1" name="horas">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" value="Registrar técnico" class="btn btn-primary">
+                                </div>
+                        </form>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <th>Material</th>
+                                <th>Cantidad Utilizada</th>
+                            </thead>
+                            <tbody>
+                                @foreach (MantencionMaterial material in Model.MantencionMateriales)
+                                {
+                                    <tr>
+                                        <td>@material.Material.Nombre</td>
+                                        <td>@material.Cantidad</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <h4>Registrar otro material</h4>
+                        <form asp-page-handler="Materiales" method="POST">
+                            <div class="row mb-3">
+                                <input type="hidden" name="idMantencion" value="@Model.Mantencion.Id">
+                                <input type="hidden" name="fecha" value="@Model.Mantencion.Fecha">
+                                <div class="col-9">
+                                    <label for="idMaterial">Material Utilizado</label>
+                                    <select class="form-control" name="idMaterial" asp-items="@Model.Materiales"></select>
+                                </div>
+                                <div class="col-3">
+                                    <label for="cantidad">Cantidad</label>
+                                    <input class="form-control" type="number" min="1" value="1" name="cantidad">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="submit" value="Registrar material" class="btn btn-primary">
+                            </div>
+                        </form>
                     </div>
                 </div>
             }
